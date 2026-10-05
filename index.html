@@ -191,7 +191,7 @@ footer{background:#0c192e;color:#93a4bb;padding:50px 0 20px}
     <p>نوصّل بضائعك بأمان وسرعة عبر أسطول شاحنات متنوع تملكه وتديره نخبة من أصحاب الخبرة — من البضائع العامة إلى البضائع الثقيلة والمبردة.</p>
     <div class="hero-btns">
       <a href="#join" class="btn btn-accent">اطلب نقل بضائعك</a>
-      <a href="#join" class="btn btn-outline">أنا صاحب شاحنة — انضم للمنصة</a>
+      <a href="#directory" class="btn btn-outline">أنا صاحب شاحنة — انضم للمنصة</a>
     </div>
   </div>
 </section>
@@ -365,6 +365,23 @@ footer{background:#0c192e;color:#93a4bb;padding:50px 0 20px}
           <option>سوق أهراس</option><option>تيبازة</option><option>ميلة</option><option>عين الدفلى</option>
           <option>النعامة</option><option>عين تموشنت</option><option>غرداية</option><option>غليزان</option>
         </select>
+        <div style="background:#fff8ec;border:1.5px dashed var(--accent);border-radius:10px;padding:16px;margin-top:18px">
+          <label style="margin-top:0">💳 دفع رسوم الاشتراك للمنصة</label>
+          <p style="color:var(--gray);font-size:.82rem;margin:4px 0 10px">رسوم التسجيل: <strong style="color:var(--dark)">500 دج / شهريًا</strong> — تُدفع لصاحب الموقع</p>
+          <select id="payMethod" required>
+            <option value="" disabled selected>اختر طريقة الدفع</option>
+            <option>💳 بطاقة CIB</option>
+            <option>💳 بطاقة الذهبية EDAHABIA</option>
+            <option>📱 بريدي موب BaridiMob</option>
+            <option>🏪 كاش في أقرب وكالة</option>
+          </select>
+          <div id="cardBox" style="display:none;margin-top:10px">
+            <label style="margin-top:0">رقم البطاقة</label>
+            <input type="text" id="cardNum" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
+          </div>
+          <button type="button" class="btn btn-accent" id="payBtn" style="width:100%;margin-top:12px">ادفع 500 دج الآن</button>
+          <div class="reg-msg" id="payMsg"></div>
+        </div>
         <button type="submit" class="btn btn-accent">أضِفني إلى القائمة ✅</button>
         <div class="reg-msg" id="regMsg">✅ تم تسجيلك بنجاح! أنت الآن في القائمة.</div>
       </form>
@@ -398,7 +415,7 @@ footer{background:#0c192e;color:#93a4bb;padding:50px 0 20px}
     <form class="cta-form" onsubmit="event.preventDefault();alert('شكراً لتسجيلك! سنتواصل معك قريباً.');">
       <input type="text" placeholder="الاسم الكامل" required>
       <input type="tel" placeholder="رقم الجوال" required>
-      <select required>
+      <select required id="ctaRole">
         <option value="" disabled selected>أنا...</option>
         <option>صاحب بضائع</option>
         <option>صاحب شاحنة</option>
@@ -447,6 +464,59 @@ footer{background:#0c192e;color:#93a4bb;padding:50px 0 20px}
 
 <script>
 
+
+// اختيار "صاحب شاحنة" في النموذج البسيط → نقله لنموذج تسجيل الشاحنات
+document.getElementById('ctaRole').addEventListener('change', function(){
+  if(this.value === 'صاحب شاحنة'){
+    document.getElementById('directory').scrollIntoView({behavior:'smooth'});
+    setTimeout(() => document.getElementById('regName').focus(), 800);
+  }
+});
+// تمرير سلس لجميع الروابط الداخلية
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+
+
+// ===== محاكاة الدفع لصاحب الموقع (مثل Yassir) =====
+const payMethod = document.getElementById('payMethod');
+const cardBox = document.getElementById('cardBox');
+const payBtn = document.getElementById('payBtn');
+const payMsg = document.getElementById('payMsg');
+
+// إظهار حقل رقم البطاقة فقط لطرق الدفع بالبطاقة
+payMethod.addEventListener('change', () => {
+  const card = payMethod.value.includes('CIB') || payMethod.value.includes('EDAHABIA');
+  cardBox.style.display = card ? 'block' : 'none';
+  if(card){ document.getElementById('cardNum').focus(); }
+  payBtn.textContent = payMethod.value.includes('وكالة') ? 'احجز الدفع في الوكالة' : 'ادفع 500 دج الآن';
+});
+
+// زر الدفع — محاكاة (في الموقع الحقيقي يُربط ببوابة دفع)
+payBtn.addEventListener('click', () => {
+  if(!payMethod.value){
+    payMsg.style.display = 'block';
+    payMsg.style.background = '#fdeaea'; payMsg.style.color = '#c0392b';
+    payMsg.textContent = '⚠️ اختر طريقة الدفع أولًا';
+    return;
+  }
+  payBtn.disabled = true;
+  payBtn.textContent = '⏳ جاري معالجة الدفع...';
+  setTimeout(() => {
+    payBtn.disabled = false;
+    payBtn.textContent = '✅ تم الدفع';
+    payBtn.style.background = 'var(--green)'; payBtn.style.color = '#fff';
+    payMsg.style.display = 'block';
+    payMsg.style.background = '#e6f6ec'; payMsg.style.color = 'var(--green)';
+    payMsg.textContent = payMethod.value.includes('وكالة')
+      ? '🏪 تم حجز الدفع! تفضل بأقرب وكالة خلال 48 ساعة برقم تسجيلك'
+      : '✅ تم دفع 500 دج بنجاح — اشتراكك مفعّل!';
+  }, 1500);
+});
+
 // ===== قائمة أصحاب الشاحنات (تُحفظ في المتصفح) =====
 const STORAGE_KEY = 'hammala_owners';
 
@@ -459,6 +529,7 @@ const seedOwners = [
   {name:'رشيد عمراني', phone:'0662334455', truck:'شاحنة نقل ثقيل', goods:'بضائع ثقيلة وآلات', capacity:40, state:'عنابة'},
   {name:'فؤاد زروقي', phone:'0771122334', truck:'شاحنة مبردة', goods:'منتجات زراعية', capacity:10, state:'البليدة'}
 ];
+// ملاحظة: التسجيلات القديمة في المتصفح بدون طريقة دفع ستظهر "كاش" تلقائيًا
 
 function getOwners(){
   let data = localStorage.getItem(STORAGE_KEY);
@@ -499,6 +570,7 @@ function renderOwners(){
         <span>🏋️ ${o.capacity || '—'} طن</span>
         <span>📍 ${o.state}</span>
       </div>
+
       <a class="call-btn" href="tel:${o.phone}">📞 ${o.phone}</a>
     </div>`).join('');
 }
@@ -518,7 +590,7 @@ document.getElementById('truckRegForm').addEventListener('submit', e => {
     truck: document.getElementById('regTruck').value,
     goods: document.getElementById('regGoods').value,
     capacity: document.getElementById('regCapacity').value,
-    state: document.getElementById('regState').value
+    state: document.getElementById('regState').value,
   });
   e.target.reset();
   const msg = document.getElementById('regMsg');
