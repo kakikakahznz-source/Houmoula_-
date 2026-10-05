@@ -338,6 +338,17 @@ footer{background:#0c192e;color:#93a4bb;padding:50px 0 20px}
           <option>قلاب / صهريج</option>
           <option>شاحنة نقل ثقيل</option>
         </select>
+        <label>الطاقة الاستيعابية (بالطن)</label>
+        <input type="number" id="regCapacity" min="1" max="60" placeholder="مثال: 20" required>
+        <label>نوع البضائع التي تنقلها</label>
+        <select id="regGoods" required>
+          <option value="" disabled selected>اختر نوع البضائع</option>
+          <option>بضائع عامة</option>
+          <option>بضائع مبردة</option>
+          <option>مواد بناء ومواد خام</option>
+          <option>منتجات زراعية</option>
+          <option>بضائع ثقيلة وآلات</option>
+        </select>
         <label>الولاية</label>
         <select id="regState" required>
           <option value="" disabled selected>اختر الولاية</option>
@@ -441,12 +452,12 @@ const STORAGE_KEY = 'hammala_owners';
 
 // بيانات تجريبية أول مرة
 const seedOwners = [
-  {name:'كمال بوعزيز', phone:'0550112233', truck:'شاحنة مقفلة (Box)', state:'الجزائر'},
-  {name:'يوسف حمادي', phone:'0661445566', truck:'شاحنة مبردة', state:'وهران'},
-  {name:'سفيان مرابط', phone:'0770998877', truck:'شاحنة مسطحة (Flatbed)', state:'قسنطينة'},
-  {name:'عبد القادر بلحاج', phone:'0555667788', truck:'قلاب / صهريج', state:'سطيف'},
-  {name:'رشيد عمراني', phone:'0662334455', truck:'شاحنة نقل ثقيل', state:'عنابة'},
-  {name:'فؤاد زروقي', phone:'0771122334', truck:'شاحنة مبردة', state:'البليدة'}
+  {name:'كمال بوعزيز', phone:'0550112233', truck:'شاحنة مقفلة (Box)', goods:'بضائع عامة', capacity:15, state:'الجزائر'},
+  {name:'يوسف حمادي', phone:'0661445566', truck:'شاحنة مبردة', goods:'بضائع مبردة', capacity:12, state:'وهران'},
+  {name:'سفيان مرابط', phone:'0770998877', truck:'شاحنة مسطحة (Flatbed)', goods:'بضائع ثقيلة وآلات', capacity:25, state:'قسنطينة'},
+  {name:'عبد القادر بلحاج', phone:'0555667788', truck:'قلاب / صهريج', goods:'مواد بناء ومواد خام', capacity:30, state:'سطيف'},
+  {name:'رشيد عمراني', phone:'0662334455', truck:'شاحنة نقل ثقيل', goods:'بضائع ثقيلة وآلات', capacity:40, state:'عنابة'},
+  {name:'فؤاد زروقي', phone:'0771122334', truck:'شاحنة مبردة', goods:'منتجات زراعية', capacity:10, state:'البليدة'}
 ];
 
 function getOwners(){
@@ -482,8 +493,10 @@ function renderOwners(){
         <div class="avatar">${o.name.trim()[0]}</div>
         <div><h4>${o.name}</h4><small>صاحب شاحنة</small></div>
       </div>
+      <div class="truck-badge" style="display:inline-block;background:#eaf1fa;color:var(--primary);padding:4px 12px;border-radius:20px;font-size:.82rem;font-weight:bold;margin-bottom:10px">🚛 ${o.truck}</div>
       <div class="owner-info">
-        <span>🚛 ${o.truck}</span>
+        <span>📦 ${o.goods || 'بضائع عامة'}</span>
+        <span>🏋️ ${o.capacity || '—'} طن</span>
         <span>📍 ${o.state}</span>
       </div>
       <a class="call-btn" href="tel:${o.phone}">📞 ${o.phone}</a>
@@ -503,6 +516,8 @@ document.getElementById('truckRegForm').addEventListener('submit', e => {
     name: document.getElementById('regName').value.trim(),
     phone: document.getElementById('regPhone').value.trim(),
     truck: document.getElementById('regTruck').value,
+    goods: document.getElementById('regGoods').value,
+    capacity: document.getElementById('regCapacity').value,
     state: document.getElementById('regState').value
   });
   e.target.reset();
