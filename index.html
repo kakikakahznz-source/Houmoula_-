@@ -133,6 +133,35 @@ footer{background:#0c192e;color:#93a4bb;padding:50px 0 20px}
   .nav-links{display:none}
   .burger{display:block}
 }
+
+/* قائمة أصحاب الشاحنات */
+.directory-sec{background:#eef2f8}
+.dir-grid{display:grid;grid-template-columns:340px 1fr;gap:30px;align-items:start}
+.reg-form{background:#fff;border-radius:14px;padding:28px;box-shadow:0 4px 18px rgba(18,35,61,.08);position:sticky;top:80px}
+.reg-form h3{color:var(--dark);margin-bottom:4px}
+.reg-form p{color:var(--gray);font-size:.88rem;margin-bottom:18px}
+.reg-form label{display:block;font-size:.88rem;font-weight:bold;color:var(--dark);margin:12px 0 4px}
+.reg-form input,.reg-form select{width:100%;padding:11px 14px;border-radius:8px;border:1.5px solid #d5dde8;font-size:.93rem;font-family:inherit;background:#fbfcfe}
+.reg-form input:focus,.reg-form select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(30,90,168,.12)}
+.reg-form .btn{width:100%;margin-top:18px}
+.reg-msg{display:none;margin-top:12px;padding:10px;border-radius:8px;background:#e6f6ec;color:var(--green);font-size:.87rem;text-align:center;font-weight:bold}
+.filters{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.filters input,.filters select{flex:1;min-width:160px;padding:11px 14px;border-radius:8px;border:1.5px solid #d5dde8;font-size:.92rem;font-family:inherit;background:#fff}
+.filters input:focus,.filters select:focus{outline:none;border-color:var(--primary)}
+.owners-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.owner-card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 3px 12px rgba(18,35,61,.06);border-right:4px solid var(--primary);transition:.2s}
+.owner-card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(18,35,61,.12)}
+.owner-card .top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.owner-card .avatar{width:46px;height:46px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.1rem}
+.owner-card h4{color:var(--dark);font-size:1rem}
+.owner-card .top small{color:var(--gray)}
+.owner-info{display:flex;gap:16px;flex-wrap:wrap;font-size:.87rem;color:#444;margin-bottom:12px}
+.owner-info span{display:flex;align-items:center;gap:5px}
+.call-btn{display:inline-flex;align-items:center;gap:6px;background:var(--green);color:#fff;padding:8px 18px;border-radius:8px;font-size:.88rem;font-weight:bold;transition:.2s}
+.call-btn:hover{background:#178048}
+.empty-msg{text-align:center;color:var(--gray);padding:40px 0;grid-column:1/-1}
+@media(max-width:900px){.dir-grid{grid-template-columns:1fr}.reg-form{position:static}.owners-grid{grid-template-columns:1fr}}
+
 @media(max-width:600px){
   .services-grid,.testi-grid,.trucks-grid{grid-template-columns:1fr}
   .steps-grid,.stats-grid{grid-template-columns:1fr 1fr}
@@ -283,6 +312,74 @@ footer{background:#0c192e;color:#93a4bb;padding:50px 0 20px}
   </div>
 </section>
 
+
+<section class="directory-sec" id="directory">
+  <div class="container">
+    <div class="sec-title">
+      <h2>قائمة أصحاب الشاحنات</h2>
+      <p>سجّل شاحنتك أو اختر الشاحنة الأنسب لبضاعتك</p>
+      <div class="line"></div>
+    </div>
+    <div class="dir-grid">
+      <!-- نموذج تسجيل صاحب الشاحنة -->
+      <form class="reg-form" id="truckRegForm">
+        <h3>🚚 سجّل شاحنتك مجانًا</h3>
+        <p>املأ بياناتك وستظهر مباشرة في القائمة ليتواصل معك العملاء.</p>
+        <label>الاسم الكامل</label>
+        <input type="text" id="regName" placeholder="مثال: أحمد بن علي" required>
+        <label>رقم الهاتف</label>
+        <input type="tel" id="regPhone" placeholder="مثال: 0550123456" required>
+        <label>نوع الشاحنة</label>
+        <select id="regTruck" required>
+          <option value="" disabled selected>اختر نوع الشاحنة</option>
+          <option>شاحنة مقفلة (Box)</option>
+          <option>شاحنة مسطحة (Flatbed)</option>
+          <option>شاحنة مبردة</option>
+          <option>قلاب / صهريج</option>
+          <option>شاحنة نقل ثقيل</option>
+        </select>
+        <label>الولاية</label>
+        <select id="regState" required>
+          <option value="" disabled selected>اختر الولاية</option>
+          <option>أدرار</option><option>الشلف</option><option>الأغواط</option><option>أم البواقي</option>
+          <option>باتنة</option><option>بجاية</option><option>بسكرة</option><option>بشار</option>
+          <option>البليدة</option><option>البويرة</option><option>تمنراست</option><option>تبسة</option>
+          <option>تلمسان</option><option>تيارت</option><option>تيزي وزو</option><option>الجزائر</option>
+          <option>الجلفة</option><option>جيجل</option><option>سطيف</option><option>سعيدة</option>
+          <option>سكيكدة</option><option>سيدي بلعباس</option><option>عنابة</option><option>قالمة</option>
+          <option>قسنطينة</option><option>المدية</option><option>مستغانم</option><option>المسيلة</option>
+          <option>معسكر</option><option>ورقلة</option><option>وهران</option><option>البيض</option>
+          <option>إليزي</option><option>برج بوعريريج</option><option>بومرداس</option><option>الطارف</option>
+          <option>تندوف</option><option>تيسمسيلت</option><option>الوادي</option><option>خنشلة</option>
+          <option>سوق أهراس</option><option>تيبازة</option><option>ميلة</option><option>عين الدفلى</option>
+          <option>النعامة</option><option>عين تموشنت</option><option>غرداية</option><option>غليزان</option>
+        </select>
+        <button type="submit" class="btn btn-accent">أضِفني إلى القائمة ✅</button>
+        <div class="reg-msg" id="regMsg">✅ تم تسجيلك بنجاح! أنت الآن في القائمة.</div>
+      </form>
+
+      <!-- القائمة + البحث -->
+      <div>
+        <div class="filters">
+          <input type="text" id="searchBox" placeholder="🔍 ابحث بالاسم أو رقم الهاتف...">
+          <select id="filterTruck">
+            <option value="">كل أنواع الشاحنات</option>
+            <option>شاحنة مقفلة (Box)</option>
+            <option>شاحنة مسطحة (Flatbed)</option>
+            <option>شاحنة مبردة</option>
+            <option>قلاب / صهريج</option>
+            <option>شاحنة نقل ثقيل</option>
+          </select>
+          <select id="filterState">
+            <option value="">كل الولايات</option>
+          </select>
+        </div>
+        <div class="owners-grid" id="ownersGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="cta" id="join">
   <div class="container">
     <h2>ابدأ رحلتك معنا اليوم</h2>
@@ -338,6 +435,89 @@ footer{background:#0c192e;color:#93a4bb;padding:50px 0 20px}
 </footer>
 
 <script>
+
+// ===== قائمة أصحاب الشاحنات (تُحفظ في المتصفح) =====
+const STORAGE_KEY = 'hammala_owners';
+
+// بيانات تجريبية أول مرة
+const seedOwners = [
+  {name:'كمال بوعزيز', phone:'0550112233', truck:'شاحنة مقفلة (Box)', state:'الجزائر'},
+  {name:'يوسف حمادي', phone:'0661445566', truck:'شاحنة مبردة', state:'وهران'},
+  {name:'سفيان مرابط', phone:'0770998877', truck:'شاحنة مسطحة (Flatbed)', state:'قسنطينة'},
+  {name:'عبد القادر بلحاج', phone:'0555667788', truck:'قلاب / صهريج', state:'سطيف'},
+  {name:'رشيد عمراني', phone:'0662334455', truck:'شاحنة نقل ثقيل', state:'عنابة'},
+  {name:'فؤاد زروقي', phone:'0771122334', truck:'شاحنة مبردة', state:'البليدة'}
+];
+
+function getOwners(){
+  let data = localStorage.getItem(STORAGE_KEY);
+  if(!data){ localStorage.setItem(STORAGE_KEY, JSON.stringify(seedOwners)); data = localStorage.getItem(STORAGE_KEY); }
+  return JSON.parse(data);
+}
+
+function saveOwner(owner){
+  const owners = getOwners();
+  owners.unshift(owner);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(owners));
+}
+
+function renderOwners(){
+  const owners = getOwners();
+  const q = document.getElementById('searchBox').value.trim();
+  const t = document.getElementById('filterTruck').value;
+  const s = document.getElementById('filterState').value;
+  const grid = document.getElementById('ownersGrid');
+  const filtered = owners.filter(o =>
+    (!q || o.name.includes(q) || o.phone.includes(q)) &&
+    (!t || o.truck === t) &&
+    (!s || o.state === s)
+  );
+  if(!filtered.length){
+    grid.innerHTML = '<div class="empty-msg">لا توجد نتائج مطابقة — جرّب تغيير الفلاتر</div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(o => `
+    <div class="owner-card">
+      <div class="top">
+        <div class="avatar">${o.name.trim()[0]}</div>
+        <div><h4>${o.name}</h4><small>صاحب شاحنة</small></div>
+      </div>
+      <div class="owner-info">
+        <span>🚛 ${o.truck}</span>
+        <span>📍 ${o.state}</span>
+      </div>
+      <a class="call-btn" href="tel:${o.phone}">📞 ${o.phone}</a>
+    </div>`).join('');
+}
+
+// تعبئة فلتر الولايات من نفس قائمة التسجيل
+const stateSelect = document.getElementById('regState');
+document.getElementById('filterState').innerHTML =
+  '<option value="">كل الولايات</option>' +
+  [...stateSelect.options].filter(o => o.value).map(o => `<option>${o.text}</option>`).join('');
+
+// تسجيل جديد
+document.getElementById('truckRegForm').addEventListener('submit', e => {
+  e.preventDefault();
+  saveOwner({
+    name: document.getElementById('regName').value.trim(),
+    phone: document.getElementById('regPhone').value.trim(),
+    truck: document.getElementById('regTruck').value,
+    state: document.getElementById('regState').value
+  });
+  e.target.reset();
+  const msg = document.getElementById('regMsg');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 4000);
+  renderOwners();
+});
+
+// البحث والفلترة الفورية
+['searchBox','filterTruck','filterState'].forEach(id =>
+  document.getElementById(id).addEventListener('input', renderOwners));
+
+renderOwners();
+
 document.querySelector('.burger').onclick = () => {
   const links = document.querySelector('.nav-links');
   links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
