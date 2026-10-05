@@ -162,6 +162,10 @@ footer{background:#0c192e;color:#93a4bb;padding:50px 0 20px}
 .empty-msg{text-align:center;color:var(--gray);padding:40px 0;grid-column:1/-1}
 @media(max-width:900px){.dir-grid{grid-template-columns:1fr}.reg-form{position:static}.owners-grid{grid-template-columns:1fr}}
 
+
+.mail-btn{display:inline-flex;align-items:center;gap:7px;background:var(--green);color:#fff;padding:7px 18px;border-radius:8px;font-size:.88rem;font-weight:bold;transition:.2s}
+.mail-btn:hover{background:#178048;transform:translateY(-2px)}
+
 @media(max-width:600px){
   .services-grid,.testi-grid,.trucks-grid{grid-template-columns:1fr}
   .steps-grid,.stats-grid{grid-template-columns:1fr 1fr}
@@ -454,8 +458,13 @@ footer{background:#0c192e;color:#93a4bb;padding:50px 0 20px}
       <h4>تواصل معنا</h4>
       <ul>
         <li>📞 920000000</li>
-        <li>✉️ info@example.com</li>
-        <li>📍 الرياض، المملكة العربية السعودية</li>
+        <li>
+          <a href="mailto:info@example.com" class="mail-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+            راسلنا الآن
+          </a>
+        </li>
+        <li>📍 الجزائر</li>
       </ul>
     </div>
   </div>
